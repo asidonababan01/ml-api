@@ -1,0 +1,32 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment variables
+.env
+
+# Compiled source
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Logs and databases
+*.log
+*.sqlite
+*.db
+
+# Local development configuration
+instance/
+
+# Docker Compose
+docker-compose.yml
+docker-compose.override.yml
+
+# env
+ve
+.scribbles
