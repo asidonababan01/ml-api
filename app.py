@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 import json
 import os
 import tensorflow as tf
@@ -8,6 +8,8 @@ app = Flask(__name__)
 
 @app.route('/interest')
 def interest():
+    money = float(request.args.get('money', 0))
+
     max_rate = 6.0
     min_rate = 3.5
 
@@ -26,13 +28,20 @@ def interest():
 
     # Reverse the normalization
     predicted_rates = np.array(predicted_normalized) * (max_rate - min_rate) + min_rate
+    predicted_rates = predicted_rates.tolist()
 
     # money * predicted_rates
+    calculated_money = list(map(lambda x: x * money, predicted_rates))
 
     print(predicted_rates)
     print(type(predicted_rates))
 
-    return {"data": predicted_rates.tolist()}
+    return {
+        "data": {
+            "rates": predicted_rates,
+            "calculated": calculated_money
+        }
+    }
 
 @app.route('/gold')
 def gold():
