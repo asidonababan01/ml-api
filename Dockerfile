@@ -4,6 +4,7 @@ WORKDIR /app
 
 COPY requirements.txt /app/
 COPY interest_rate_model /app/interest_rate_model
+COPY gold_model /app/gold_model
 COPY app.py /app/
 
 RUN pip install --upgrade pip
@@ -13,5 +14,6 @@ EXPOSE 5000
 
 ENV FLASK_APP=app.py
 ENV INTEREST_PATH=./interest_rate_model
+ENV GOLD_PATH=./gold_model
 
 CMD ["flask", "run", "--host=0.0.0.0"]
