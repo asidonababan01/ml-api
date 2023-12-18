@@ -30,8 +30,9 @@ def interest():
     # money * predicted_rates
 
     print(predicted_rates)
+    print(type(predicted_rates))
 
-    return {"data": json.dumps(predicted_rates.tolist())}
+    return {"data": predicted_rates.tolist()}
 
 if __name__ == '__main__':
     app.run(debug=True)
