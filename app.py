@@ -69,20 +69,30 @@ def gold():
 
 @app.route('/house')
 def house():
-    return {"data": [
-        5.697893142700195,
-        5.694507598876953,
-        5.691179275512695,
-        5.687906265258789,
-        5.684688568115234,
-        5.681525707244873,
-        5.6784162521362305,
-        5.675358295440674,
-        5.672351837158203,
-        5.66939640045166,
-        5.6664910316467285,
-        5.663634300231934
-    ]}
+    min_rate = 0.95636
+    max_rate = 13.5061
+
+    # Load the Model
+    model = tf.keras.models.load_model("./housepricegrowth_rate_model")
+
+    # Forecast future growth rates
+    future_steps = 12
+    array_to_reshape = [0.1603778, 0.16483852, 0.16887896]
+    new_X = np.array(array_to_reshape).reshape(1, 3, 1)
+    predicted_normalized = []
+    for _ in range(future_steps):
+        pred = model.predict(new_X)
+        predicted_normalized.append(pred[0, 0])
+        new_X = np.roll(new_X, -1, axis=1)
+        new_X[0, -1, 0] = pred[0, 0]
+
+    # Reverse the normalization
+    predicted_rates = np.array(predicted_normalized) * (max_rate - min_rate) + min_rate
+
+    # percent kenaikan
+
+    print(predicted_rates)
+    return {"data": predicted_rates.tolist()}
 
 @app.route('/stock')
 def stock():
