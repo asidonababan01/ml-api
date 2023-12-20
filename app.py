@@ -96,24 +96,33 @@ def house():
 
 @app.route('/stock')
 def stock():
-    return {
-        "data": [
-            1,
-            4,
-            3,
-            5,
-            5,
-            6,
-            2,
-            8,
-            9,
-            10,
-            7,
-            12,
-            8,
-            14,
-        ]
-    }
+    min_price = 732.401001
+    max_price = 7228.914063
+
+    # Load the Model
+    model = tf.keras.models.load_model("./stock_model")
+
+    # Forecast future stock prices
+    future_steps = 12
+    array_to_reshape = [
+        0.94176954, 0.94003364, 0.94063349, 0.93479006, 0.95178979,
+        0.90831192, 0.912717, 0.95419771, 0.95756888, 0.95551121,
+        0.92662169, 0.97719194, 0.94432652, 0.94072467, 0.93620187,
+        0.93090552, 0.92500818, 0.91865826, 0.91202885, 0.90526968,
+        0.89843303, 0.89155924, 0.88477463, 0.87809634
+    ]
+    new_X = np.array(array_to_reshape).reshape(1, 24, 1)
+    predicted_normalized = []
+    for _ in range(future_steps):
+        pred = model.predict(new_X)
+        predicted_normalized.append(pred[0, 0])
+        new_X = np.roll(new_X, -1, axis=1)
+        new_X[0, -1, 0] = pred[0, 0]
+
+    # Reverse the normalization
+    predicted_prices = np.array(predicted_normalized) * (max_price - min_price) + min_price
+    
+    return {"data": predicted_prices.tolist()}
 
 if __name__ == '__main__':
     app.run(debug=True)
