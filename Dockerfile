@@ -3,9 +3,12 @@ FROM python:3.10.9
 WORKDIR /app
 
 COPY requirements.txt /app/
+
 COPY interest_rate_model /app/interest_rate_model
 COPY gold_model /app/gold_model
 COPY housepricegrowth_rate_model /app/housepricegrowth_rate_model
+COPY stock_model /app/stock_model
+
 COPY app.py /app/
 
 RUN pip install --upgrade pip
