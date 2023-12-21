@@ -16,7 +16,10 @@
 - [House Price Notebook](https://colab.research.google.com/drive/1WYXKE8vZggtgsrBdDFqWmh5OCnERMVS1?usp=sharing)
 
 # Dataset Resources
-- [Kaggle]()
+- CEIC
+- World Bank
+- Refinitiv
+- Yahoo Finance
 
 # How to run this Flask app
 - Clone this repo
